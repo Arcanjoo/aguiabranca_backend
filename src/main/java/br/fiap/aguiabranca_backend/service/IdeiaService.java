@@ -34,10 +34,8 @@ public class IdeiaService {
             RestTemplate restTemplate = new RestTemplate();
             // URL limpa sem o parâmetro ?key=
             String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent";
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            // Autenticação Bearer exigida pelas novas chaves AQ.
             headers.set("Authorization", "Bearer " + geminiApiKey);
 
             String prompt = "Aja como um gestor de inovação. Avalie esta ideia de 0 a 100 e dê uma justificativa curta. Formato OBRIGATÓRIO de resposta: 'Nota: [numero] - Justificativa: [texto]'. A ideia é: " + ideia.getTitulo() + " - " + ideia.getDescricao();

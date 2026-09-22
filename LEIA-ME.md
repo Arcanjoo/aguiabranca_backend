@@ -1,19 +1,20 @@
 # ÁGUIA BRANCA - BACKEND API
 
-Esta é a API Rest responsável por gerir toda a regra de negócio da aplicação de vistoria e manutenção de frotas. O sistema lida com a autenticação de utilizadores, gestão de veículos, registo de checklists pré-viagem e controlo de estados de manutenções.
+Esta é a API Rest responsável por gerir toda a regra de negócio da aplicação de vistoria, manutenção de frotas e avaliação automatizada de ideias com Inteligência Artificial. O sistema lida com a autenticação de utilizadores, gestão de veículos, registo de checklists pré-viagem, controlo de estados de manutenções e integração nativa com o Google Gemini.
 
 ## TECNOLOGIAS UTILIZADAS
 * **Linguagem:** Java
 * **Framework:** Spring Boot
 * **Segurança:** Spring Security com autenticação via Token JWT
 * **Base de Dados:** MongoDB (NoSQL - Cloud/MongoDB Atlas)
+* **Inteligência Artificial:** Google Gemini API (Modelo Flash) com autenticação via Bearer Token
 * **Gestão de Dependências:** Maven
 
 ## ARQUITETURA E ORGANIZAÇÃO
 O projeto foi estruturado utilizando o padrão de arquitetura em camadas para garantir a separação de responsabilidades, escalabilidade e fácil manutenção:
 
-* **controller/:** Camada de exposição dos endpoints REST (ex: AuthController, VeiculoController, ManutencaoController).
-* **service/:** Camada contendo a regra de negócio e validações lógicas da aplicação.
+* **controller/:** Camada de exposição dos endpoints REST (ex: AuthController, VeiculoController, ManutencaoController, IdeiaController).
+* **service/:** Camada contendo a regra de negócio, validações lógicas e integração HTTP com a API do Gemini.
 * **repository/:** Camada de persistência de dados (interfaces Spring Data MongoDB).
 * **model/:** Entidades de domínio mapeadas para coleções da base de dados.
 * **dto/:** Objetos de Transferência de Dados para isolar o domínio dos pedidos externos (Payloads e Responses).
@@ -27,13 +28,10 @@ Para correr este projeto localmente, precisará apenas de ter instalado na sua m
 
 ## COMO EXECUTAR O PROJETO LOCALMENTE
 
-### CONFIGURAÇÃO DA BASE DE DADOS (ONLINE)
-A aplicação está configurada para comunicar diretamente com a base de dados alojada na nuvem (MongoDB Atlas). 
+### CONFIGURAÇÃO DA BASE DE DADOS E IA (ONLINE)
+A aplicação está configurada para comunicar diretamente com a base de dados alojada na nuvem (MongoDB Atlas) e com os serviços de Inteligência Artificial do Google Gemini.
 
-**Nota para o avaliador:** O ficheiro `src/main/resources/application.properties` já se encontra devidamente configurado com a URI de conexão funcional. Além disso, o cluster do MongoDB Atlas foi configurado com a regra Network Access `0.0.0.0/0`, permitindo conexões de qualquer IP. Isto garante que o projeto pode ser executado e testado localmente sem bloqueios de firewall.
-
-A string de conexão configurada no properties segue a estrutura:
-`spring.data.mongodb.uri=mongodb+srv://joaopdr924_db_user:aguia1234@cluster0.d91qif4.mongodb.net/aguiabranca_db?retryWrites=true&w=majority&appName=Cluster0`
+**Nota para o avaliador:** O ficheiro `src/main/resources/application.properties` já se encontra devidamente configurado com a URI de conexão do MongoDB e a chave de API segura do Gemini.
 
 ### EXECUTAR VIA LINHA DE COMANDOS (TERMINAL)
 Na raiz do projeto (onde se encontra o ficheiro `pom.xml` e o executável `mvnw`), execute o comando abaixo para compilar e iniciar o servidor:
@@ -50,5 +48,5 @@ Na raiz do projeto (onde se encontra o ficheiro `pom.xml` e o executável `mvnw`
 3. Localize o ficheiro `AguiabrancaBackendApplication.java` e execute-o (Run).
 
 ## ACEDER À API
-Por predefinição, o servidor local iniciará na porta 8080 conectado à base de dados online.
-* **URL base local:** http://localhost:8080
+Por predefinição, o servidor local iniciará na porta 8080 conectado à base de dados online e pronto para receber requisições do aplicativo Android e do portal de inovação[cite: 14].
+* **URL base local:** http://localhost:8080[cite: 14]
