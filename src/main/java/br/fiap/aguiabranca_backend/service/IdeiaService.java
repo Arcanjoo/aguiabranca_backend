@@ -56,7 +56,8 @@ public class IdeiaService {
             ideia.setPontuacaoIA(notaStr.isEmpty() ? 50 : Integer.parseInt(notaStr));
 
         } catch (Exception e) {
-            ideia.setJustificativaIA("Não foi possível gerar avaliação da IA neste momento.");
+            e.printStackTrace(); // Imprime o erro completo na consola do IntelliJ/Railway
+            ideia.setJustificativaIA("Erro na IA: " + e.getMessage());
             ideia.setPontuacaoIA(0);
         }
 
