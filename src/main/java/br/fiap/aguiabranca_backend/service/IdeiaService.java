@@ -20,7 +20,7 @@ public class IdeiaService {
     private IdeiaRepository repository;
 
     // Chave inserida diretamente para evitar falhas de placeholder
-    private String geminiApiKey = "AQ.Ab8RN6LMmHNAJAJ8KBK63gRKaMaWBGwTr-Hj1HaQP7QPf9wM6Q";
+    private String geminiApiKey = "AQ.Ab8RN6JZ0d-njqde0V71vjUxek9lSCPrs-s-QsvXjVRqf5Mujw";
 
     public List<Ideia> listarTodas() {
         return repository.findAll();
