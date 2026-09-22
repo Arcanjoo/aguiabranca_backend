@@ -5,6 +5,7 @@ import br.fiap.aguiabranca_backend.repository.IdeiaRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,8 +20,8 @@ public class IdeiaService {
     @Autowired
     private IdeiaRepository repository;
 
-    // Chave inserida diretamente para evitar falhas de placeholder
-    private String geminiApiKey = "AQ.Ab8RN6JZ0d-njqde0V71vjUxek9lSCPrs-s-QsvXjVRqf5Mujw";
+    @Value("${gemini.api.key}")
+    private String geminiApiKey;
 
     public List<Ideia> listarTodas() {
         return repository.findAll();
@@ -32,7 +33,7 @@ public class IdeiaService {
         try {
             // Chamada à API do Google Gemini
             RestTemplate restTemplate = new RestTemplate();
-            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + geminiApiKey;
+            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=" + geminiApiKey;
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -56,8 +57,8 @@ public class IdeiaService {
             ideia.setPontuacaoIA(notaStr.isEmpty() ? 50 : Integer.parseInt(notaStr));
 
         } catch (Exception e) {
-            e.printStackTrace(); // Imprime o erro completo na consola do IntelliJ/Railway
-            ideia.setJustificativaIA("Erro na IA: " + e.getMessage());
+            e.printStackTrace();
+            ideia.setJustificativaIA("Não foi possível gerar avaliação da IA neste momento.");
             ideia.setPontuacaoIA(0);
         }
 
