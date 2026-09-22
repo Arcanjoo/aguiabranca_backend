@@ -5,7 +5,6 @@ import br.fiap.aguiabranca_backend.repository.IdeiaRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,8 +19,8 @@ public class IdeiaService {
     @Autowired
     private IdeiaRepository repository;
 
-    @Value("${gemini.api.key}")
-    private String geminiApiKey;
+    // Chave inserida diretamente para evitar falhas de placeholder
+    private String geminiApiKey = "AQ.Ab8RN6LMmHNAJAJ8KBK63gRKaMaWBGwTr-Hj1HaQP7QPf9wM6Q";
 
     public List<Ideia> listarTodas() {
         return repository.findAll();
