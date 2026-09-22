@@ -31,12 +31,14 @@ public class IdeiaService {
         ideia.setStatus("PENDENTE");
 
         try {
-            // Chamada à API do Google Gemini
             RestTemplate restTemplate = new RestTemplate();
-            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=" + geminiApiKey;
+            // URL limpa sem o parâmetro ?key=
+            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent";
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
+            // Autenticação Bearer exigida pelas novas chaves AQ.
+            headers.set("Authorization", "Bearer " + geminiApiKey);
 
             String prompt = "Aja como um gestor de inovação. Avalie esta ideia de 0 a 100 e dê uma justificativa curta. Formato OBRIGATÓRIO de resposta: 'Nota: [numero] - Justificativa: [texto]'. A ideia é: " + ideia.getTitulo() + " - " + ideia.getDescricao();
 
@@ -45,14 +47,12 @@ public class IdeiaService {
 
             String response = restTemplate.postForObject(url, request, String.class);
 
-            // Extrair o texto da resposta JSON
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(response);
             String textoIA = root.path("candidates").get(0).path("content").path("parts").get(0).path("text").asText();
 
             ideia.setJustificativaIA(textoIA);
 
-            // Tenta extrair o número da nota de forma simples
             String notaStr = textoIA.replaceAll("[^0-9]", "").substring(0, Math.min(2, textoIA.replaceAll("[^0-9]", "").length()));
             ideia.setPontuacaoIA(notaStr.isEmpty() ? 50 : Integer.parseInt(notaStr));
 
